@@ -39,11 +39,17 @@
                   <div class="input-group">
                     <form:input path="user_id" class="form-control" />
                     <div class="input-group-append">
-                      <button type="button" class="btn btn-primary">중복확인</button>
+                      <button type="button" onclick="checkUserIdExist()" class="btn btn-primary">중복확인</button>
+
                     </div>
                   </div>
-                  <form:errors path="user_id" style="color:coral" />
-                </div>
+                  <form:errors path="user_id" />
+                </div> 
+                <div class="form-group" id="idCheck">
+                   <form:hidden path="userIdChecked"/>
+                   <form:errors path="userIdChecked" style="color:coral" />
+                </div>      
+                
                 <div class="form-group">
                   <form:label path="user_pw">비밀번호</form:label>
                   <form:input path="user_pw" class="form-control" />
