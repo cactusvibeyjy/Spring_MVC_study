@@ -1,6 +1,9 @@
 package com.demo.config;
 
 import javax.servlet.Filter;
+import javax.servlet.FilterRegistration.Dynamic;
+import javax.servlet.MultipartConfigElement;
+
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -64,6 +67,16 @@ public class SpringConfigClass extends AbstractAnnotationConfigDispatcherServlet
 		encodingFilter.setEncoding("UTF-8");
 		return new Filter[] {encodingFilter};
 	}	
+	
+	@Override
+	protected void customizeRegistration(Dynamic registration) {
+
+		super.customizeRegistration(registration);
+		
+		MultipartConfigElement config1 = new MultipartConfigElement(null, 5242880, 52428800, 0);
+		registration.setMultipartConfig(config1);
+	}
+
 }
 
 
