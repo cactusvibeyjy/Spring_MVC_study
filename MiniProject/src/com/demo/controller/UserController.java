@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,19 +11,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.demo.beans.LoginUserBean;
 import com.demo.beans.UserBean;
+import com.demo.service.UserService;
 
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	@Autowired
+	private UserService userService;
 	
-	
+	@Resource(name = "loginUserBean")
+	private LoginUserBean loginUserBean;
+
 	@GetMapping("/login")
-	public String login() {
-		return "user/login";
+	public String login(@ModelAttribute("loginBean") LoginUserBean loginBean, Model model,
+			@RequestParam(value = "fail", defaultValue = "false") boolean fail) {
+			model.addAttribute("fail", fail);
+			return "user/login";
 	}
+
 	
 //	@GetMapping("/join")
 //	public String join() {
@@ -51,7 +62,27 @@ public class UserController {
 			model.addAttribute("msg", "비밀번호가 같지 않습니다.");
 			return "user/join";
 		}
+		userService.addUserInfo(joinUserBean);
 		return "user/join_success";
 	}
+	
+	//로그인 유효성 검사
+	@PostMapping("/login_pro")
+	public String login_pro(@ModelAttribute("loginBean") LoginUserBean loginBean, BindingResult result) {
+		
+		if(result.hasErrors()) {
+			return "user/login";
+		}
+		
+		userService.getLoginUserInfo(loginBean);
 
+		if(loginUserBean.isUserLogin() == true) {
+			return "user/login_success";
+		} else {
+			return "user/login_fail";
+		}
+	}
 }
+
+
+

@@ -8,17 +8,32 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.demo.beans.BoardInfoBean;
+import com.demo.beans.LoginUserBean;
 import com.demo.service.MenuService;
 
 public class MenuInterceptor implements HandlerInterceptor {
 	
 	
 	private MenuService menuService;
+	private LoginUserBean loginUserBean;
+	
+
+
 	
 	// 생성자 주입
 	public MenuInterceptor(MenuService menuService) {
 		this.menuService = menuService;
 	}
+	
+	//loginUserBean 생성자 주입
+	public MenuInterceptor(MenuService menuService, LoginUserBean loginUserBean) {
+		this.menuService = menuService;
+		this.loginUserBean = loginUserBean;
+		
+	}
+
+
+
 	
 	
 	@Override

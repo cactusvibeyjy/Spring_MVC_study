@@ -31,6 +31,7 @@ import com.demo.service.MenuService;
 @ComponentScan("com.demo.controller")
 @PropertySource("/WEB-INF/properties/db.properties")
 @ComponentScan("com.demo.service")
+@ComponentScan("com.demo.beans")
 public class ServletAppContext implements WebMvcConfigurer {
 
 	@Value("${db.classname}")
