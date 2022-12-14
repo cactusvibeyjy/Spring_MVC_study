@@ -35,11 +35,13 @@ public class UserService {
 	public void getLoginUserInfo(LoginUserBean loginBean) {
 
 		LoginUserBean tempLoginBean = userMapper.getLoginUserInfo(loginBean);
-
+		//로그인 유저 객체에 현재 로그인된 유저의 정보를 입력한다. 로그인 상태는 true 로 입력.
 		if (tempLoginBean != null) {
 			loginUserBean.setUser_idx(tempLoginBean.getUser_idx());
 			loginUserBean.setUser_name(tempLoginBean.getUser_name());
 			loginUserBean.setUserLogin(true); // 로그인 상태 true
+		} else {
+			loginUserBean.setUserLogin(false);//로그인 상태 false
 		}
 	}
 

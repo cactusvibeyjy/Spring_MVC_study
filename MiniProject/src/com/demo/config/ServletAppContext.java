@@ -1,5 +1,7 @@
 package com.demo.config;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.demo.beans.LoginUserBean;
 import com.demo.interceptor.MenuInterceptor;
 import com.demo.mapper.BoardMapper;
 import com.demo.mapper.MenuMapper;
@@ -48,6 +51,12 @@ public class ServletAppContext implements WebMvcConfigurer {
 	
 	@Autowired
 	private MenuService menuService;
+	
+	@Resource(name = "loginUserBean")
+	private LoginUserBean loginUserBean;
+
+
+
 	// Controller의 메서드가 반환하는 jsp의 이름 앞뒤에 경로와 확장자를 붙혀주도록 설정한다.
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
@@ -98,15 +107,14 @@ public class ServletAppContext implements WebMvcConfigurer {
 		factoryBean.setSqlSessionFactory(factory);
 		return factoryBean;
 	}
-	@Override
+	@Override //인터셉터 추가
 	public void addInterceptors(InterceptorRegistry registry) {
 		
 		WebMvcConfigurer.super.addInterceptors(registry);
-		
-		MenuInterceptor menuInterceptor = new MenuInterceptor(menuService);
-		
+	
+		MenuInterceptor menuInterceptor = new MenuInterceptor(menuService, loginUserBean);
 		InterceptorRegistration reg1 = registry.addInterceptor(menuInterceptor);
-		
+	
 		reg1.addPathPatterns("/**"); //모든 요청에 적용됨
 	}
 	@Bean

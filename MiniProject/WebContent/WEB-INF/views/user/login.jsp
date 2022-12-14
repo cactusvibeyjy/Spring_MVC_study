@@ -32,6 +32,7 @@
         <div class="col-sm-6">
           <div class="card shadow">
             <div class="card-body">
+            
               <c:if test="${fail == true }">
               <div class="alert alert-danger">
                 <h3>로그인 실패</h3>

@@ -42,7 +42,7 @@ public class MenuInterceptor implements HandlerInterceptor {
 		//DB; 테이블에서 게시판 이름들을 가져와 메뉴페이지에 전달하기
 		List<BoardInfoBean> topMenuList = menuService.getMenuList();
 		request.setAttribute("topMenuList", topMenuList);
-
+		request.setAttribute("loginUserBean", loginUserBean);
 		return true;
 	}
 

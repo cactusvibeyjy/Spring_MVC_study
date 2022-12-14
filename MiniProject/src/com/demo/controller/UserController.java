@@ -73,7 +73,7 @@ public class UserController {
 		if(result.hasErrors()) {
 			return "user/login";
 		}
-		
+		//유효성 테스트 완료후, id pw로 현재 로그인 유저정보를 db에서 꺼내와 세션에 로그인 객체에 저장한다.
 		userService.getLoginUserInfo(loginBean);
 
 		if(loginUserBean.isUserLogin() == true) {
