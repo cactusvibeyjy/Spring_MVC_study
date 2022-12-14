@@ -20,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.demo.beans.LoginUserBean;
+import com.demo.interceptor.CheckLoginInterceptor;
 import com.demo.interceptor.MenuInterceptor;
 import com.demo.mapper.BoardMapper;
 import com.demo.mapper.MenuMapper;
@@ -114,8 +115,12 @@ public class ServletAppContext implements WebMvcConfigurer {
 	
 		MenuInterceptor menuInterceptor = new MenuInterceptor(menuService, loginUserBean);
 		InterceptorRegistration reg1 = registry.addInterceptor(menuInterceptor);
-	
+		CheckLoginInterceptor checkLoginInterceptor = new CheckLoginInterceptor(loginUserBean);
+		InterceptorRegistration reg2 = registry.addInterceptor(checkLoginInterceptor);
+
 		reg1.addPathPatterns("/**"); //모든 요청에 적용됨
+		reg2.addPathPatterns("/user/modify", "/user/logout", "/board/*");
+		reg2.excludePathPatterns("/board/main");
 	}
 	@Bean
 	public MapperFactoryBean<UserMapper> getUserMapper(SqlSessionFactory factory) throws Exception{
